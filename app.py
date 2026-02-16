@@ -91,10 +91,7 @@ with DATA_PATH.open("r", encoding="utf-8") as f:
 PROBLEMS_BY_ID: Dict[str, Dict] = {str(item.get("id", "")): item for item in PROBLEMS}
 
 PROBLEM_VECTORS = [
-    {
-        "id": item.get("id"),
-        "vector": text_to_vector(build_problem_search_text(item)),
-    }
+    {"id": item.get("id"), "vector": text_to_vector(build_problem_search_text(item))}
     for item in PROBLEMS
 ]
 
@@ -124,6 +121,7 @@ class AppHandler(BaseHTTPRequestHandler):
     def do_GET(self):  # noqa: N802 (BaseHTTPRequestHandlerのAPIに合わせる)
         parsed = urlparse(self.path)
 
+        # ルートは検索ページ
         if parsed.path == "/" or parsed.path == "/index.html":
             self._send_html(INDEX_PATH.read_text(encoding="utf-8"))
             return
@@ -141,6 +139,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 return
 
             query_vec = text_to_vector(query)
+
             scored = []
             for item in PROBLEM_VECTORS:
                 problem = PROBLEMS_BY_ID.get(str(item.get("id")), {})
@@ -167,6 +166,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(problem)
             return
 
+        # それ以外は404
         self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
 
 

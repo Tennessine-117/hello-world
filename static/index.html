@@ -18,7 +18,9 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         max-width: 980px;
       }
-      h1 { margin-top: 0; }
+      h1 {
+        margin-top: 0;
+      }
       input {
         width: 100%;
         padding: 12px;
@@ -26,10 +28,21 @@
         border: 1px solid #ddd;
         border-radius: 8px;
       }
-      ul { padding-left: 20px; }
-      li { margin: 12px 0; line-height: 1.5; }
-      .score { color: #666; font-size: 12px; margin-left: 6px; }
-      .tags { margin-top: 4px; }
+      ul {
+        padding-left: 20px;
+      }
+      li {
+        margin: 12px 0;
+        line-height: 1.5;
+      }
+      .score {
+        color: #666;
+        font-size: 12px;
+        margin-left: 6px;
+      }
+      .tags {
+        margin-top: 4px;
+      }
       .tag {
         display: inline-block;
         font-size: 12px;
@@ -39,8 +52,14 @@
         background: #eef3ff;
         color: #355;
       }
-      a.problem-link { color: #0b4cc0; text-decoration: none; font-weight: 600; }
-      a.problem-link:hover { text-decoration: underline; }
+      a.problem-link {
+        color: #0b4cc0;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      a.problem-link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -107,7 +126,6 @@
           renderResults([]);
           return;
         }
-
         const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
         const data = await res.json();
         renderResults(data);
