@@ -21,7 +21,7 @@
 cd /workspace/hello-world
 
 # 2) アプリ起動
-python app.py
+python3 app.py
 ```
 
 起動後、Windows側ブラウザで以下へアクセス:
@@ -59,7 +59,7 @@ http://localhost:8000
 - ベクトルを正規化し、コサイン類似度で近い順に並べます。
 
 ## 手動テストチェックリスト（軽量）
-- [ ] `python app.py` でサーバが起動する
+- [ ] `python3 app.py` でサーバが起動する
 - [ ] `/` で検索ページが開く
 - [ ] 検索入力で結果が最大10件表示される
 - [ ] 結果クリックで `/problems/<id>` に移動できる
