@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>化学問題 検索</title>
+    <style>
+      body {
+        font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+        margin: 40px;
+        background: #f7f7fb;
+        color: #222;
+      }
+      .card {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        max-width: 980px;
+      }
+      h1 { margin-top: 0; }
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      ul { padding-left: 20px; }
+      li { margin: 12px 0; line-height: 1.5; }
+      .score { color: #666; font-size: 12px; margin-left: 6px; }
+      .tags { margin-top: 4px; }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        padding: 2px 8px;
+        margin-right: 6px;
+        border-radius: 999px;
+        background: #eef3ff;
+        color: #355;
+      }
+      a.problem-link { color: #0b4cc0; text-decoration: none; font-weight: 600; }
+      a.problem-link:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>化学の問題検索</h1>
+      <p>検索文を入力すると、意味が近い順に上位10件を表示します。</p>
+      <input id="query" type="text" placeholder="例：酸化還元反応、電池、平衡" />
+      <h2>結果</h2>
+      <ul id="results"></ul>
+    </div>
+
+    <script>
+      // 日本語コメント多め：最小構成の検索UI
+      const queryInput = document.getElementById("query");
+      const resultsList = document.getElementById("results");
+
+      // タグ表示用の小要素を作る
+      function createTag(tagText) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = tagText;
+        return span;
+      }
+
+      // 結果をリストに描画
+      function renderResults(items) {
+        resultsList.innerHTML = "";
+        if (items.length === 0) {
+          const li = document.createElement("li");
+          li.textContent = "該当なし";
+          resultsList.appendChild(li);
+          return;
+        }
+
+        items.forEach((item) => {
+          const li = document.createElement("li");
+
+          // タイトルを詳細ページへのリンクにする
+          const link = document.createElement("a");
+          link.className = "problem-link";
+          link.href = `/problems/${encodeURIComponent(item.id)}`;
+          link.textContent = item.title || "(無題)";
+          li.appendChild(link);
+
+          const score = document.createElement("span");
+          score.className = "score";
+          score.textContent = ` (score: ${item.score.toFixed(3)})`;
+          li.appendChild(score);
+
+          // タグを表示
+          const tags = document.createElement("div");
+          tags.className = "tags";
+          (item.tags || []).forEach((tag) => tags.appendChild(createTag(tag)));
+          li.appendChild(tags);
+
+          resultsList.appendChild(li);
+        });
+      }
+
+      // 入力が変わったら即検索（シンプルに即時反応）
+      async function handleSearch() {
+        const q = queryInput.value.trim();
+        if (!q) {
+          renderResults([]);
+          return;
+        }
+
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        renderResults(data);
+      }
+
+      queryInput.addEventListener("input", handleSearch);
+    </script>
+  </body>
+</html>
