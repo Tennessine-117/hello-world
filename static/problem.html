@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>問題詳細</title>
+    <style>
+      body { font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; margin: 40px; background: #f7f7fb; color: #222; }
+      .card { background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.08); max-width: 980px; }
+      .tags { margin: 8px 0 16px; }
+      .tag { display: inline-block; font-size: 12px; padding: 2px 8px; margin-right: 6px; border-radius: 999px; background: #eef3ff; }
+      #answerBox { margin-top: 12px; padding: 12px; border-left: 4px solid #7aa6ff; background: #f7faff; display: none; }
+      #toggleAnswer { margin-top: 8px; padding: 8px 14px; border: 1px solid #ccd; border-radius: 8px; background: #fff; cursor: pointer; }
+      .back { margin-bottom: 12px; display: inline-block; }
+      ol { padding-left: 20px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <a class="back" href="/">← 検索ページへ戻る</a>
+      <h1 id="title">読み込み中...</h1>
+      <div id="tags" class="tags"></div>
+
+      <h2>問題文</h2>
+      <p id="statement"></p>
+
+      <section id="choicesSection" style="display: none">
+        <h2>選択肢</h2>
+        <ol id="choices"></ol>
+      </section>
+
+      <section id="answerSection">
+        <h2>答え</h2>
+        <button id="toggleAnswer">答えを表示</button>
+        <div id="answerBox"></div>
+      </section>
+    </div>
+
+    <script>
+      const titleEl = document.getElementById("title");
+      const tagsEl = document.getElementById("tags");
+      const statementEl = document.getElementById("statement");
+      const choicesSection = document.getElementById("choicesSection");
+      const choicesEl = document.getElementById("choices");
+      const toggleAnswerBtn = document.getElementById("toggleAnswer");
+      const answerBox = document.getElementById("answerBox");
+
+      let answerVisible = false;
+      let currentAnswer = "";
+
+      function getProblemIdFromPath() {
+        const parts = window.location.pathname.split("/");
+        return decodeURIComponent(parts[parts.length - 1] || "");
+      }
+
+      function renderTags(tags) {
+        tagsEl.innerHTML = "";
+        (tags || []).forEach((tag) => {
+          const span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = tag;
+          tagsEl.appendChild(span);
+        });
+      }
+
+      function renderChoices(choices) {
+        choicesEl.innerHTML = "";
+        if (!choices || choices.length === 0) {
+          choicesSection.style.display = "none";
+          return;
+        }
+        choicesSection.style.display = "block";
+        choices.forEach((choice) => {
+          const li = document.createElement("li");
+          li.textContent = choice;
+          choicesEl.appendChild(li);
+        });
+      }
+
+      function setAnswerVisibility(nextVisible) {
+        answerVisible = nextVisible;
+        if (answerVisible) {
+          answerBox.style.display = "block";
+          answerBox.textContent = currentAnswer;
+          toggleAnswerBtn.textContent = "答えを隠す";
+        } else {
+          answerBox.style.display = "none";
+          toggleAnswerBtn.textContent = "答えを表示";
+        }
+      }
+
+      async function loadProblem() {
+        const id = getProblemIdFromPath();
+        if (!id) {
+          titleEl.textContent = "問題IDが指定されていません";
+          return;
+        }
+
+        const res = await fetch(`/api/problems/${encodeURIComponent(id)}`);
+        if (!res.ok) {
+          titleEl.textContent = "問題が見つかりません";
+          statementEl.textContent = "指定したIDの問題は存在しません。";
+          document.getElementById("answerSection").style.display = "none";
+          return;
+        }
+
+        const problem = await res.json();
+        titleEl.textContent = problem.title || "(無題)";
+        statementEl.textContent = problem.statement || "(問題文なし)";
+        renderTags(problem.tags || []);
+        renderChoices(problem.choices || []);
+
+        // answerは任意項目。無いときはボタンごと隠す
+        currentAnswer = (problem.answer || "").trim();
+        if (!currentAnswer) {
+          document.getElementById("answerSection").style.display = "none";
+        } else {
+          setAnswerVisibility(false);
+        }
+      }
+
+      toggleAnswerBtn.addEventListener("click", () => {
+        setAnswerVisibility(!answerVisible);
+      });
+
+      loadProblem();
+    </script>
+  </body>
+</html>
