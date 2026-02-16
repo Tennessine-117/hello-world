@@ -21,7 +21,7 @@
 cd /workspace/hello-world
 
 # 2) アプリ起動
-python3 app.py
+python app.py
 ```
 
 起動後、Windows側ブラウザで以下へアクセス:
@@ -59,7 +59,7 @@ http://localhost:8000
 - ベクトルを正規化し、コサイン類似度で近い順に並べます。
 
 ## 手動テストチェックリスト（軽量）
-- [ ] `python3 app.py` でサーバが起動する
+- [ ] `python app.py` でサーバが起動する
 - [ ] `/` で検索ページが開く
 - [ ] 検索入力で結果が最大10件表示される
 - [ ] 結果クリックで `/problems/<id>` に移動できる
@@ -71,26 +71,3 @@ http://localhost:8000
 ## 補足
 - 日本語コメント多めで、最小構成です。
 - まず「動くもの」を優先した実装です。
-
-## コンフリクトで詰まったとき（main追従のやり直し）
-このリポジトリには、最新 `main` に載せ直す補助スクリプトを用意しています。
-
-```bash
-bash tools/rebuild_on_main.sh origin main chem-search-rebuild
-```
-
-- `origin/main` を取得
-- `chem-search-rebuild` ブランチを `origin/main` から作成
-- 化学検索アプリ実装コミットを cherry-pick で載せ直し
-
-※ 競合が出た場合は、案内に従って解消後 `git cherry-pick --continue` を実行してください。
-
-## コンフリクトを起こしにくくする運用メモ
-この機能を `main` の最新に追従しながら取り込む場合は、以下の順がおすすめです。
-
-1. `main` から新しい作業ブランチを作る。
-2. このアプリ変更は「データ更新」と「画面/API変更」を分けてコミットする。
-3. PR作成前に `main` を取り込み（rebase または merge）、`README.md / app.py / data/problems.json / static/index.html` を優先的に確認する。
-4. 競合時は「main側の既存変更を残す」ことを先に決め、必要な機能（問題詳細ページ・答えトグル・拡張スキーマ）だけを最小差分で再適用する。
-
-この手順にすると、同じ4ファイルでの大きな競合を減らしやすくなります。
