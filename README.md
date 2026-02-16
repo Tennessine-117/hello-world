@@ -72,6 +72,19 @@ http://localhost:8000
 - 日本語コメント多めで、最小構成です。
 - まず「動くもの」を優先した実装です。
 
+## コンフリクトで詰まったとき（main追従のやり直し）
+このリポジトリには、最新 `main` に載せ直す補助スクリプトを用意しています。
+
+```bash
+bash tools/rebuild_on_main.sh origin main chem-search-rebuild
+```
+
+- `origin/main` を取得
+- `chem-search-rebuild` ブランチを `origin/main` から作成
+- 化学検索アプリ実装コミットを cherry-pick で載せ直し
+
+※ 競合が出た場合は、案内に従って解消後 `git cherry-pick --continue` を実行してください。
+
 ## コンフリクトを起こしにくくする運用メモ
 この機能を `main` の最新に追従しながら取り込む場合は、以下の順がおすすめです。
 
