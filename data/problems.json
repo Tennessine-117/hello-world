@@ -1,24 +1,658 @@
 [
-  {"id": 1, "text": "理想気体の状態方程式を用いて、体積2.0 L、温度300 Kの気体の圧力を求めよ。"},
-  {"id": 2, "text": "ボイルの法則に従う気体を2倍に圧縮したとき、体積はどう変化するか説明せよ。"},
-  {"id": 3, "text": "1.0 molの気体が等温膨張する。圧力変化と仕事の関係を述べよ。"},
-  {"id": 4, "text": "0.10 mol/Lの塩化ナトリウム水溶液100 mLに含まれる物質量を計算せよ。"},
-  {"id": 5, "text": "希塩酸を水で10倍に希釈したとき、水素イオン濃度はどうなるか。"},
-  {"id": 6, "text": "酸と塩基の中和反応で生成する塩と水について、化学式で表せ。"},
-  {"id": 7, "text": "過マンガン酸カリウムによる酸化還元滴定の終点の判断方法を述べよ。"},
-  {"id": 8, "text": "鉄(II)イオンが鉄(III)イオンに酸化される反応式をイオン式で書け。"},
-  {"id": 9, "text": "亜鉛と銅のダニエル電池の反応と起電力の向きを説明せよ。"},
-  {"id": 10, "text": "鉛蓄電池の放電時に起こる電極反応を示せ。"},
-  {"id": 11, "text": "水の自己解離とイオン積の関係を説明し、25℃での値を示せ。"},
-  {"id": 12, "text": "弱酸HAの電離平衡における電離度と酸解離定数の関係を導け。"},
-  {"id": 13, "text": "化学平衡におけるルシャトリエの原理を具体例で説明せよ。"},
-  {"id": 14, "text": "反応A ⇄ Bの平衡定数が小さいとき、平衡はどちらに偏るか。"},
-  {"id": 15, "text": "反応熱が正のとき、その反応は吸熱反応か発熱反応か答えよ。"},
-  {"id": 16, "text": "生成エンタルピーの定義と、単体の標準生成エンタルピーの値を述べよ。"},
-  {"id": 17, "text": "ヘスの法則を用いて燃焼熱を求める手順を説明せよ。"},
-  {"id": 18, "text": "溶解度曲線を用いて、温度変化による析出量を求める方法を示せ。"},
-  {"id": 19, "text": "コロイド溶液と真の溶液の違いを粒子サイズの観点から説明せよ。"},
-  {"id": 20, "text": "酸化還元反応における酸化数の変化を用いて反応の妥当性を確認せよ。"},
-  {"id": 21, "text": "濃度0.50 mol/Lの酢酸溶液のpHを概算する方法を述べよ。"},
-  {"id": 22, "text": "気体の分子量と密度の関係を理想気体の式から導け。"}
+  {
+    "id": "gas_ideal_001",
+    "title": "理想気体の圧力計算",
+    "statement": "条件：2.00 Lの容器に0.200 molの理想気体を入れ、温度を300 Kに保った。問い：気体定数R=8.31×10^3 Pa·L/(mol·K)として圧力を求めよ。",
+    "choices": [
+      "2.49×10^5 Pa",
+      "8.31×10^4 Pa",
+      "2.00×10^5 Pa",
+      "4.98×10^5 Pa"
+    ],
+    "answer": "PV=nRTよりP=nRT/V=0.200×8.31×10^3×300/2.00=2.49×10^5 Pa。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "ideal_gas_law"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_mixture_002",
+    "title": "分圧の計算",
+    "statement": "条件：同温同体積下でO2が0.30 mol、N2が0.70 molの混合気体がある。全圧は100 kPa。問い：O2の分圧を求めよ。",
+    "choices": [
+      "10 kPa",
+      "30 kPa",
+      "70 kPa",
+      "100 kPa"
+    ],
+    "answer": "モル分率x(O2)=0.30/(0.30+0.70)=0.30。分圧は0.30×100=30 kPa。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "partial_pressure",
+      "mole_fraction"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_charles_003",
+    "title": "シャルルの法則",
+    "statement": "条件：圧力一定で250 mLの気体を27℃から127℃まで加熱した。問い：体積は何mLになるか。",
+    "choices": [
+      "150",
+      "250",
+      "334",
+      "500"
+    ],
+    "answer": "温度をKに直してV1/T1=V2/T2。250/300=V2/400よりV2=333... mL。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "charles_law"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_boyle_004",
+    "title": "ボイルの法則",
+    "statement": "条件：温度一定で気体の体積を600 mLから240 mLに変化させた。初圧は80 kPa。問い：最終圧を求めよ。",
+    "choices": [
+      "20 kPa",
+      "80 kPa",
+      "120 kPa",
+      "200 kPa"
+    ],
+    "answer": "P1V1=P2V2よりP2=80×600/240=200 kPa。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "boyle_law"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_density_005",
+    "title": "気体の密度と分子量",
+    "statement": "条件：標準状態である気体の密度は1.25 g/L。問い：この気体の分子量を求めよ。",
+    "choices": [
+      "14",
+      "22.4",
+      "28",
+      "44.8"
+    ],
+    "answer": "標準状態で1 molは22.4 L。分子量M=1.25×22.4=28 g/mol。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "gas_density",
+      "molar_volume"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_collection_006",
+    "title": "水上置換で集めた気体",
+    "statement": "条件：25℃で水上置換により気体を集めた。全圧101 kPa、水蒸気圧3.2 kPa。問い：乾いた気体の圧力を求めよ。",
+    "choices": [
+      "3.2 kPa",
+      "97.8 kPa",
+      "101 kPa",
+      "104.2 kPa"
+    ],
+    "answer": "ダルトンの法則よりPgas=101-3.2=97.8 kPa。",
+    "tags": [
+      "気体"
+    ],
+    "concepts": [
+      "partial_pressure",
+      "vapor_pressure"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_kc_007",
+    "title": "平衡定数Kcの式",
+    "statement": "条件：反応 aA+bB⇄cC+dD が平衡に達した。問い：濃度平衡定数Kcを濃度記号で表せ。",
+    "tags": [
+      "平衡"
+    ],
+    "concepts": [
+      "equilibrium_constant"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_shift_temp_008",
+    "title": "温度変化と平衡移動",
+    "statement": "条件：発熱反応 A⇄B が平衡にある。問い：温度を上げると平衡はどちらへ移動するか。",
+    "choices": [
+      "生成物側",
+      "反応物側",
+      "移動しない",
+      "圧力でのみ決まる"
+    ],
+    "answer": "発熱反応では熱は生成物側。温度上昇は吸熱方向（反応物側）へ平衡移動。",
+    "tags": [
+      "平衡"
+    ],
+    "concepts": [
+      "le_chatelier",
+      "temperature_effect"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_shift_pressure_009",
+    "title": "圧力変化と平衡",
+    "statement": "条件：N2(g)+3H2(g)⇄2NH3(g) が平衡。問い：圧力を上げるとどちらへ移るか。",
+    "choices": [
+      "左",
+      "右",
+      "移動しない",
+      "触媒が必要"
+    ],
+    "answer": "気体モル数の少ない側へ移るので右。",
+    "tags": [
+      "平衡"
+    ],
+    "concepts": [
+      "le_chatelier",
+      "pressure_effect"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_qk_010",
+    "title": "反応商Qと平衡定数K",
+    "statement": "条件：ある反応でQ>Kとなった。問い：その後、反応はどちら向きに進みやすいか。",
+    "choices": [
+      "正反応",
+      "逆反応",
+      "停止",
+      "不定"
+    ],
+    "answer": "Qが大きい=生成物過多なので逆反応方向へ進んで平衡に近づく。",
+    "tags": [
+      "平衡"
+    ],
+    "concepts": [
+      "reaction_quotient"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_weak_acid_011",
+    "title": "弱酸の電離平衡",
+    "statement": "条件：一価弱酸HAの初濃度C、電離度α。問い：酸解離定数KaをCとαで表せ。",
+    "answer": "Ka=[H+][A-]/[HA]=Cα^2/(1-α)。",
+    "tags": [
+      "平衡",
+      "酸塩基"
+    ],
+    "concepts": [
+      "acid_dissociation_constant",
+      "degree_of_dissociation"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "eq_solubility_012",
+    "title": "溶解平衡とKsp",
+    "statement": "条件：AgCl(s)⇄Ag+(aq)+Cl-(aq) の平衡。問い：溶解度積Kspをイオン濃度で書け。",
+    "answer": "Ksp=[Ag+][Cl-]。",
+    "tags": [
+      "平衡",
+      "溶液"
+    ],
+    "concepts": [
+      "solubility_product"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_ph_013",
+    "title": "強酸のpH",
+    "statement": "条件：0.010 mol/Lの塩酸水溶液がある。問い：pHを求めよ。",
+    "choices": [
+      "1",
+      "2",
+      "7",
+      "12"
+    ],
+    "answer": "強酸なので[H+]=0.010=10^-2、pH=2。",
+    "tags": [
+      "酸塩基"
+    ],
+    "concepts": [
+      "ph",
+      "strong_acid"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_neutral_014",
+    "title": "中和に必要な体積",
+    "statement": "条件：0.20 mol/L NaOH水溶液25.0 mLを中和する。問い：0.10 mol/L HClは何mL必要か。",
+    "choices": [
+      "12.5",
+      "25.0",
+      "50.0",
+      "75.0"
+    ],
+    "answer": "NaOH物質量0.20×0.0250=0.00500 mol。HClも同量必要なのでV=0.00500/0.10=0.0500 L。",
+    "tags": [
+      "酸塩基",
+      "溶液"
+    ],
+    "concepts": [
+      "neutralization",
+      "stoichiometry"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_buffer_015",
+    "title": "緩衝液の性質",
+    "statement": "条件：酢酸と酢酸ナトリウムを含む水溶液がある。問い：この溶液の特徴として適切なものを選べ。",
+    "choices": [
+      "少量の酸添加でpHが大きく変化する",
+      "少量の塩基添加でpH変化が小さい",
+      "純水より導電率が必ず小さい",
+      "中和滴定で終点を持たない"
+    ],
+    "answer": "緩衝液は少量の酸・塩基添加でpH変化を抑える。",
+    "tags": [
+      "酸塩基"
+    ],
+    "concepts": [
+      "buffer_solution"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_indicator_016",
+    "title": "指示薬の変色域",
+    "statement": "条件：フェノールフタレインの変色域はpH8.3〜10.0。問い：酸性溶液中の色として正しいものを選べ。",
+    "choices": [
+      "赤",
+      "青",
+      "無色",
+      "黄"
+    ],
+    "answer": "酸性〜中性側では無色。",
+    "tags": [
+      "酸塩基"
+    ],
+    "concepts": [
+      "indicator",
+      "titration"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_water_017",
+    "title": "水のイオン積",
+    "statement": "条件：25℃で純水の[H+]と[OH-]は等しい。問い：水のイオン積Kwの値を答えよ。",
+    "choices": [
+      "1.0×10^-7",
+      "1.0×10^-14",
+      "7.0",
+      "14"
+    ],
+    "answer": "25℃ではKw=[H+][OH-]=1.0×10^-14。",
+    "tags": [
+      "酸塩基"
+    ],
+    "concepts": [
+      "ionic_product_of_water"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_polyprotic_018",
+    "title": "二価酸の中和点",
+    "statement": "条件：H2SO4をNaOHで滴定する。問い：第一中和点と第二中和点で必要なNaOH量の関係を述べよ。",
+    "answer": "第二中和点は第一中和点の2倍のNaOH物質量が必要。",
+    "tags": [
+      "酸塩基"
+    ],
+    "concepts": [
+      "polyprotic_acid",
+      "neutralization"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_exo_019",
+    "title": "発熱・吸熱の判定",
+    "statement": "条件：反応エンタルピーΔH=-92 kJ/mol。問い：この反応は発熱か吸熱か。",
+    "choices": [
+      "発熱",
+      "吸熱"
+    ],
+    "answer": "ΔH<0なので発熱反応。",
+    "tags": [
+      "熱化学"
+    ],
+    "concepts": [
+      "enthalpy_change"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_hess_020",
+    "title": "ヘスの法則の利用",
+    "statement": "条件：C+O2→CO2 の反応熱を求めたい。問い：ヘスの法則で必要となる情報の組を簡潔に説明せよ。",
+    "tags": [
+      "熱化学"
+    ],
+    "concepts": [
+      "hess_law"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_calorimetry_021",
+    "title": "熱量計算",
+    "statement": "条件：100 gの水の温度を20℃上げた。比熱4.2 J/(g·K)。問い：吸収熱量を求めよ。",
+    "choices": [
+      "8.4×10^2 J",
+      "8.4×10^3 J",
+      "4.2×10^4 J",
+      "8.4×10^4 J"
+    ],
+    "answer": "q=mcΔT=100×4.2×20=8.4×10^3 J。",
+    "tags": [
+      "熱化学"
+    ],
+    "concepts": [
+      "calorimetry",
+      "specific_heat"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_bond_022",
+    "title": "結合エネルギーと反応熱",
+    "statement": "条件：反応熱を結合エネルギーで近似する。問い：ΔHを結合エネルギーから求める基本式を答えよ。",
+    "answer": "ΔH≈(切る結合エネルギー総和)−(できる結合エネルギー総和)。",
+    "tags": [
+      "熱化学"
+    ],
+    "concepts": [
+      "bond_energy"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_entropy_023",
+    "title": "エントロピー変化の傾向",
+    "statement": "条件：1 molの液体水が同温同圧で水蒸気になる。問い：エントロピーは増加・減少のどちらか。",
+    "choices": [
+      "増加",
+      "減少",
+      "変化なし"
+    ],
+    "answer": "気体化で分子の取りうる状態数が増えるため増加。",
+    "tags": [
+      "熱化学"
+    ],
+    "concepts": [
+      "entropy"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "thermo_gibbs_024",
+    "title": "自発性の判定",
+    "statement": "条件：ある温度でΔH<0かつΔS>0。問い：ギブズエネルギー変化ΔGの符号はどうなるか。",
+    "choices": [
+      "常に正",
+      "常に負",
+      "温度で変わる",
+      "0"
+    ],
+    "answer": "ΔG=ΔH−TΔSで両項とも負方向寄与、常に負。",
+    "tags": [
+      "熱化学",
+      "平衡"
+    ],
+    "concepts": [
+      "gibbs_energy"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_daniell_025",
+    "title": "ダニエル電池の極",
+    "statement": "条件：Zn|Zn2+ || Cu2+|Cu の電池。問い：負極で起こる反応を答えよ。",
+    "choices": [
+      "Cu→Cu2++2e-",
+      "Zn2++2e-→Zn",
+      "Zn→Zn2++2e-",
+      "Cu2++2e-→Cu"
+    ],
+    "answer": "負極(アノード)で酸化：Zn→Zn2++2e-。",
+    "tags": [
+      "電池",
+      "酸化還元"
+    ],
+    "concepts": [
+      "daniell_cell",
+      "anode_cathode"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_emf_026",
+    "title": "標準起電力",
+    "statement": "条件：標準電極電位 E°(Cu2+/Cu)=+0.34 V, E°(Zn2+/Zn)=-0.76 V。問い：ダニエル電池のE°を求めよ。",
+    "choices": [
+      "0.42 V",
+      "1.10 V",
+      "-1.10 V",
+      "1.52 V"
+    ],
+    "answer": "E°cell=E°cathode−E°anode=0.34−(-0.76)=1.10 V。",
+    "tags": [
+      "電池",
+      "酸化還元"
+    ],
+    "concepts": [
+      "standard_electrode_potential"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_lead_027",
+    "title": "鉛蓄電池の放電",
+    "statement": "条件：鉛蓄電池が放電中。問い：正極で生成する主な物質を答えよ。",
+    "choices": [
+      "Pb",
+      "PbO2",
+      "PbSO4",
+      "H2"
+    ],
+    "answer": "放電時、正極のPbO2はPbSO4へ変化する。",
+    "tags": [
+      "電池"
+    ],
+    "concepts": [
+      "lead_acid_battery"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_conc_028",
+    "title": "濃淡電池の起電力傾向",
+    "statement": "条件：同種電極・同種イオンで濃度のみ異なる濃淡電池。問い：濃度差が大きいほど起電力はどうなるか。",
+    "choices": [
+      "大きくなる",
+      "小さくなる",
+      "一定",
+      "0になる"
+    ],
+    "answer": "ネルンスト式より濃度比が大きいほど起電力は大きい。",
+    "tags": [
+      "電池",
+      "平衡"
+    ],
+    "concepts": [
+      "concentration_cell",
+      "nernst_equation"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_electrolysis_029",
+    "title": "電気分解での析出量",
+    "statement": "条件：CuSO4水溶液を2.0 Aで965 s電気分解した。問い：析出するCuは何molか。F=96500 C/mol。",
+    "choices": [
+      "0.010",
+      "0.020",
+      "0.050",
+      "0.100"
+    ],
+    "answer": "電気量Q=It=1930 C、電子mol=1930/96500=0.020。Cu2++2e-→CuよりCuは0.010 mol。",
+    "tags": [
+      "電池",
+      "酸化還元"
+    ],
+    "concepts": [
+      "faradays_law",
+      "electrolysis"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "cell_fuel_030",
+    "title": "燃料電池の反応",
+    "statement": "条件：水素-酸素燃料電池を考える。問い：全体反応を化学式で示せ。",
+    "answer": "2H2+O2→2H2O。",
+    "tags": [
+      "電池",
+      "酸化還元"
+    ],
+    "concepts": [
+      "fuel_cell"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_alkane_031",
+    "title": "アルカンの一般式",
+    "statement": "条件：鎖式飽和炭化水素の炭素数をnとする。問い：一般式を答えよ。",
+    "choices": [
+      "CnH2n",
+      "CnH2n+2",
+      "CnH2n-2",
+      "CnHn"
+    ],
+    "answer": "アルカンの一般式はCnH2n+2。",
+    "tags": [
+      "有機"
+    ],
+    "concepts": [
+      "alkane"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_isomer_032",
+    "title": "構造異性体の数",
+    "statement": "条件：分子式C4H10の炭化水素を考える。問い：構造異性体は何種類か。",
+    "choices": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": "n-ブタンとイソブタンの2種類。",
+    "tags": [
+      "有機"
+    ],
+    "concepts": [
+      "constitutional_isomer"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_alcohol_033",
+    "title": "アルコールの酸化",
+    "statement": "条件：第一級アルコールを酸化した。問い：生成しうる官能基を順に答えよ。",
+    "answer": "第一級アルコール→アルデヒド→カルボン酸。",
+    "tags": [
+      "有機",
+      "酸化還元"
+    ],
+    "concepts": [
+      "alcohol_oxidation",
+      "functional_group"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_ester_034",
+    "title": "エステル化反応",
+    "statement": "条件：酢酸とエタノールを濃硫酸存在下で反応。問い：生成するエステル名を答えよ。",
+    "choices": [
+      "酢酸メチル",
+      "酢酸エチル",
+      "ギ酸エチル",
+      "酢酸プロピル"
+    ],
+    "answer": "酢酸エチルが生成。",
+    "tags": [
+      "有機"
+    ],
+    "concepts": [
+      "esterification"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_polymer_035",
+    "title": "付加重合の例",
+    "statement": "条件：エチレンを重合する。問い：得られる高分子名を答えよ。",
+    "choices": [
+      "ポリエチレン",
+      "ポリプロピレン",
+      "ナイロン6",
+      "PET"
+    ],
+    "tags": [
+      "有機",
+      "高分子"
+    ],
+    "concepts": [
+      "addition_polymerization"
+    ],
+    "source": "dummy"
+  },
+  {
+    "id": "org_benzene_036",
+    "title": "ベンゼンの置換反応",
+    "statement": "条件：ベンゼンに濃硝酸・濃硫酸を作用させる。問い：主生成物の名称を答えよ。",
+    "choices": [
+      "アニリン",
+      "ニトロベンゼン",
+      "フェノール",
+      "安息香酸"
+    ],
+    "answer": "ニトロ化によりニトロベンゼン。",
+    "tags": [
+      "有機"
+    ],
+    "concepts": [
+      "electrophilic_aromatic_substitution"
+    ],
+    "source": "dummy"
+  }
 ]

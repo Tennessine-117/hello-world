@@ -2,6 +2,7 @@
 - 起動時に問題文を数値ベクトル化して保持
 - 検索文も同じ方法でベクトル化
 - コサイン類似度で近い順に上位10件を返す
+- 問題詳細ページで選択肢/答え表示のトグルに対応
 """
 
 from __future__ import annotations
@@ -12,14 +13,15 @@ import math
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from typing import List
-from urllib.parse import parse_qs, urlparse
+from typing import Dict, List
+from urllib.parse import parse_qs, unquote, urlparse
 
 # -----------------------------
 # 設定値（最小構成）
 # -----------------------------
 DATA_PATH = Path("data/problems.json")
 INDEX_PATH = Path("static/index.html")
+PROBLEM_PAGE_PATH = Path("static/problem.html")
 VECTOR_SIZE = 128  # 「意味を表す数字の列」の長さ（固定長）
 TOP_K = 10
 HOST = "0.0.0.0"
@@ -29,11 +31,9 @@ PORT = 8000
 # -----------------------------
 # テキスト -> 数値ベクトル 変換
 # -----------------------------
-
 def _normalize_text(text: str) -> str:
     """前処理：空白などを軽く整える（日本語向けに簡易対応）"""
-    # 全角/半角や記号の細かな処理は省略し、最低限で動かす
-    return "".join(text.lower().split())
+    return "".join((text or "").lower().split())
 
 
 def _char_bigrams(text: str) -> List[str]:
@@ -46,7 +46,6 @@ def _char_bigrams(text: str) -> List[str]:
 def _hash_to_index(token: str) -> int:
     """トークンを固定長ベクトルのインデックスへ（再現性のあるハッシュ）"""
     digest = hashlib.md5(token.encode("utf-8")).digest()
-    # 先頭4バイトを整数化して次元に割り当て
     value = int.from_bytes(digest[:4], "little")
     return value % VECTOR_SIZE
 
@@ -56,12 +55,10 @@ def text_to_vector(text: str) -> List[float]:
     normalized = _normalize_text(text)
     bigrams = _char_bigrams(normalized)
 
-    # ハッシュ化した出現回数ベクトル
     vec = [0.0] * VECTOR_SIZE
     for token in bigrams:
         vec[_hash_to_index(token)] += 1.0
 
-    # L2正規化（コサイン類似度用）
     norm = math.sqrt(sum(v * v for v in vec))
     if norm == 0.0:
         return vec
@@ -73,18 +70,28 @@ def cosine_similarity(vec_a: List[float], vec_b: List[float]) -> float:
     return sum(a * b for a, b in zip(vec_a, vec_b))
 
 
+def build_problem_search_text(problem: Dict) -> str:
+    """検索用テキストを構築。
+
+    精度改善は次PRとして、ここでは既存ロジックに寄せたシンプル構成。
+    """
+    title = str(problem.get("title", ""))
+    statement = str(problem.get("statement", ""))
+    tags = " ".join(problem.get("tags") or [])
+    concepts = " ".join(problem.get("concepts") or [])
+    return " ".join([title, statement, tags, concepts]).strip()
+
+
 # -----------------------------
 # 起動時に問題文を読み込み＆ベクトル化
 # -----------------------------
 with DATA_PATH.open("r", encoding="utf-8") as f:
-    PROBLEMS = json.load(f)
+    PROBLEMS: List[Dict] = json.load(f)
+
+PROBLEMS_BY_ID: Dict[str, Dict] = {str(item.get("id", "")): item for item in PROBLEMS}
 
 PROBLEM_VECTORS = [
-    {
-        "id": item["id"],
-        "text": item["text"],
-        "vector": text_to_vector(item["text"]),
-    }
+    {"id": item.get("id"), "vector": text_to_vector(build_problem_search_text(item))}
     for item in PROBLEMS
 ]
 
@@ -116,8 +123,12 @@ class AppHandler(BaseHTTPRequestHandler):
 
         # ルートは検索ページ
         if parsed.path == "/" or parsed.path == "/index.html":
-            html = INDEX_PATH.read_text(encoding="utf-8")
-            self._send_html(html)
+            self._send_html(INDEX_PATH.read_text(encoding="utf-8"))
+            return
+
+        # 問題詳細ページ
+        if parsed.path.startswith("/problems/"):
+            self._send_html(PROBLEM_PAGE_PATH.read_text(encoding="utf-8"))
             return
 
         # 検索API
@@ -129,17 +140,30 @@ class AppHandler(BaseHTTPRequestHandler):
 
             query_vec = text_to_vector(query)
 
-            # 類似度計算して上位を抽出
-            scored = [
-                {
-                    "id": item["id"],
-                    "text": item["text"],
-                    "score": cosine_similarity(query_vec, item["vector"]),
-                }
-                for item in PROBLEM_VECTORS
-            ]
+            scored = []
+            for item in PROBLEM_VECTORS:
+                problem = PROBLEMS_BY_ID.get(str(item.get("id")), {})
+                scored.append(
+                    {
+                        "id": problem.get("id", ""),
+                        "title": problem.get("title", "(無題)"),
+                        "tags": problem.get("tags") or [],
+                        "score": cosine_similarity(query_vec, item["vector"]),
+                    }
+                )
+
             scored.sort(key=lambda x: x["score"], reverse=True)
             self._send_json(scored[:TOP_K])
+            return
+
+        # 問題詳細API
+        if parsed.path.startswith("/api/problems/"):
+            problem_id = unquote(parsed.path.replace("/api/problems/", "", 1)).strip()
+            problem = PROBLEMS_BY_ID.get(problem_id)
+            if not problem:
+                self._send_json({"error": "problem not found"}, status=HTTPStatus.NOT_FOUND)
+                return
+            self._send_json(problem)
             return
 
         # それ以外は404
